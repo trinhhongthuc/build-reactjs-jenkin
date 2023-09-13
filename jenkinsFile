@@ -32,6 +32,15 @@ pipeline {
                 sh 'delpoy'
             }
         }
+
+        stage('test') {
+            agent {
+                label 'server16'
+            }
+            steps {
+                sh 'test'
+            }
+        }
     }
 
 }
