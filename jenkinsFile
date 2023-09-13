@@ -1,0 +1,28 @@
+def COLOR_MAP  = [
+    'SUCCESS': 'good',
+    'FAILURE': 'danger'
+]
+
+pipeline {
+    agent none
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker-builder')
+        BUILD_USER         = 'Jenkins'
+        PROJECT            = 'emarket'
+        ENVIRONMENT        = 'dev'
+        VERSION            = 'latest'
+        SERVICE            = 'web'
+    }
+
+    stages {
+        stage('Build web') {
+            agent {
+                label 'server16'
+            }
+            steps {
+                sh 'npm run start'
+            }
+        }
+    }
+
+}
