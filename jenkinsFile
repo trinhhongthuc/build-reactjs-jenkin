@@ -8,19 +8,25 @@ pipeline {
     stages {
         stage('Checkout branch ') {
             steps {
-                git branch: 'main', url: "https://github.com/trinhhongthuc/build-reactjs-jenkin.git"
+                script {
+                    git branch: 'main', url: "https://github.com/trinhhongthuc/build-reactjs-jenkin.git"
+                }
             }
         }
 
         stage('Build this docker project into Image') {
             steps {
-                dockerImage = docker.build('${DOCKER_IMAGE_NAME}')
+                script {
+                    dockerImage = docker.build('${DOCKER_IMAGE_NAME}')
+                }
             }
         }
 
         stage('Run docker image with flags -d') {
             steps {
-                dockerImage = docker.run("-d -p 8080:5173")
+                script {
+                    dockerImage = docker.run("-d -p 8080:5173")
+                }
             }
         }
     }
