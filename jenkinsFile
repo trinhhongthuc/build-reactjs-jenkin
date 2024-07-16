@@ -2,13 +2,33 @@ pipeline {
     agent any
     environment {
         ENVIROMENT = 'dev'
+        DOCKER_IMAGE_NAME  = "react-web:latest"
     }
 
     stages {
-        stage('Example build Web') {
+        stage('Checkout branch ') {
             steps {
-                echo "Example build Web"
+                git branch: 'main', url: "https://github.com/trinhhongthuc/build-reactjs-jenkin.git"
             }
+        }
+
+        stage('Build this docker project into Image') {
+            steps {
+                dockerImage = docker.build('${DOCKER_IMAGE_NAME}')
+            }
+        }
+
+        stage('Run docker image with flags -d') {
+            steps {
+                dockerImage = docker.run("-d -p 8080:5173")
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning up..."
+            sh "docker image prune -f "
         }
     }
 }
