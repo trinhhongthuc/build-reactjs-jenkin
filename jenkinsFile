@@ -7,9 +7,7 @@ pipeline {
     stages {
         stage('Example build Web') {
             steps {
-                step {
-                    echo "Example build Web"
-                }
+                echo "Example build Web"
             }
         }
     }
