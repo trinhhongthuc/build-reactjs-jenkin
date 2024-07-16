@@ -1,31 +1,31 @@
 pipeline {
     agent any
+
     environment {
-        ENVIROMENT = 'dev'
-        DOCKER_IMAGE_NAME  = "react-web:latest"
+        ENVIRONMENT = 'dev'
+        DOCKER_IMAGE = 'your-docker-image:latest'
     }
 
     stages {
-        stage('Checkout branch ') {
+        stage('Checkout') {
+            steps {
+                // Checkout code from version control
+                git branch: 'main', url: 'https://github.com/your-repo/your-project.git'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    git branch: 'main', url: "https://github.com/trinhhongthuc/build-reactjs-jenkin.git"
+                    dockerImage = docker.build("${DOCKER_IMAGE}")
                 }
             }
         }
 
-        stage('Build this docker project into Image') {
+        stage('Run Docker Container') {
             steps {
                 script {
-                    dockerImage = docker.build('${DOCKER_IMAGE_NAME}')
-                }
-            }
-        }
-
-        stage('Run docker image with flags -d') {
-            steps {
-                script {
-                    dockerImage = docker.run("-d -p 8080:5173")
+                    dockerImage.run('-d -p 8080:80')
                 }
             }
         }
@@ -33,8 +33,9 @@ pipeline {
 
     post {
         always {
-            echo "Cleaning up..."
-            sh "docker image prune -f "
+            echo 'Cleaning up...'
+            // Cleanup any dangling images
+            sh 'docker image prune -f'
         }
     }
 }
