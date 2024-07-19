@@ -4,41 +4,49 @@ pipeline {
     environment {
         ENVIRONMENT = 'dev'
         DOCKER_IMAGE = 'your-docker-image:latest'
-        DOCKER_USER_NAME = "trinhhongthuc57@gmail.com"
-        DOCKER_PASSWORD = "Trinhhongthuc1999."
+        DOCKER_HUB_CREDENTIAL = 'thuctrinh-demo' // Jenkins credential ID
+        DOCKER_REPO = 'testing-jenkins'
+        TAG = 'latest'
+        IMAGE_NAME = 'testing-jenkins'
     }
 
     stages {
-        stage('Clone Code to GitHub'){
+        stage('Clone Code from GitHub') {
             steps {
-                echo "Cloning the code to GitHub"
+                echo "Cloning the code from GitHub"
                 git url: "https://github.com/trinhhongthuc/build-reactjs-jenkin", branch: "master"
             }
         }
 
-        stage ('Build') {
-            steps{
-                echo "Building the Docker Images"
-                sh "docker build -t todo-list-app ."
+        stage('Build Docker Image') {
+            steps {
+                echo "Building the Docker Image"
+                sh "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 echo "Pushing the Docker image to Docker Hub"
-                withCredentials([usernamePassword(credentialId: "thuctrinh-demo", passwordVariable: "123456", userNameVariable: "thuctrinh")]) {
-                    sh "docker tag todo-list ${env.dockerHubUser}/todo-list-app:latest "
-                    sh "docker login -u ${env.DOCKER_USER_NAME} -p ${ENV.DOCKER_PASSWORD}"
-                    sh "docker push ${env.dockerHubUser}/todo-list-app:latest"
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIAL}", passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                    sh "docker tag ${IMAGE_NAME}:${TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${TAG}"
+                    sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                    sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${TAG}"
                 }
             }
         }
 
-        stage("Deploy") {
+        stage('Deploy') {
             steps {
                 echo "Deploying the container"
                 sh "docker compose down && docker compose up -d"
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
