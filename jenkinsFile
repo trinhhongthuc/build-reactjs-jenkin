@@ -4,6 +4,8 @@ pipeline {
     environment {
         ENVIRONMENT = 'dev'
         DOCKER_IMAGE = 'your-docker-image:latest'
+        DOCKER_USER_NAME = "trinhhongthuc57@gmail.com"
+        DOCKER_PASSWORD = "Trinhhongthuc1999."
     }
 
     stages {
@@ -26,7 +28,7 @@ pipeline {
                 echo "Pushing the Docker image to Docker Hub"
                 withCredentials([usernamePassword(credentialId: "thuctrinh-demo", passwordVariable: "123456", userNameVariable: "thuctrinh")]) {
                     sh "docker tag todo-list ${env.dockerHubUser}/todo-list-app:latest "
-                    sh "docker login -u ${trinhhongthuc57@gmail.com} -p ${Trinhhongthuc1999.}"
+                    sh "docker login -u ${env.DOCKER_USER_NAME} -p ${ENV.DOCKER_PASSWORD}"
                     sh "docker push ${env.dockerHubUser}/todo-list-app:latest"
                 }
             }
