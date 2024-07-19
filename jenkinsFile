@@ -24,9 +24,9 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 echo "Pushing the Docker image to Docker Hub"
-                withCredentials([usernamePassword(credentialId: "dockerhub", passwordVariable: "dockedockerHubPasshub", userNameVariable: "dockerHubUser")]) {
+                withCredentials([usernamePassword(credentialId: "thuctrinh-demo", passwordVariable: "123456", userNameVariable: "thuctrinh")]) {
                     sh "docker tag todo-list ${env.dockerHubUser}/todo-list-app:latest "
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh "docker login -u ${trinhhongthuc57@gmail.com} -p ${Trinhhongthuc1999.}"
                     sh "docker push ${env.dockerHubUser}/todo-list-app:latest"
                 }
             }
@@ -38,5 +38,5 @@ pipeline {
                 sh "docker compose down && docker compose up -d"
             }
         }
-}
+    }
 }
