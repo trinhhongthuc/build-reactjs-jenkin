@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        stage('Clone Code to GitHub')
+        stage('Clone Code to GitHub'){
             steps {
                 echo "Cloning the code to GitHub"
                 git url: "https://github.com/trinhhongthuc/build-reactjs-jenkin", branch: "master"
@@ -38,4 +38,5 @@ pipeline {
                 sh "docker compose down && docker compose up -d"
             }
         }
+    }
 }
