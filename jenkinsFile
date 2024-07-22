@@ -31,7 +31,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIAL}", passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
                     script {
                         sh "docker tag ${IMAGE_NAME}:${TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${TAG}"
-                        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                        sh "echo $DOCKERHUB_PASSWORD | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
                         sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${TAG}"
                     }
                 }
