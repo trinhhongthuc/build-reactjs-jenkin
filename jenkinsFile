@@ -6,7 +6,7 @@ pipeline {
         DOCKER_IMAGE = 'your-docker-image:latest'
         DOCKER_HUB_CREDENTIAL = 'Trinhhongthuc1999.' // Jenkins credential ID
         DOCKER_REPO = 'testing-jenkins'
-        DOCKER_HUB_USERNAME = 'trinhhongthuc'
+        DOCKER_HUB_USERNAME = 'thuchongtrinh'
         TAG = 'latest'
         IMAGE_NAME = 'testing-jenkins'
     }
