@@ -4,7 +4,7 @@ pipeline {
     environment {
         ENVIRONMENT = 'dev'
         DOCKER_IMAGE = 'your-docker-image:latest'
-        DOCKER_HUB_CREDENTIAL = 'thuchongtrinh' // Jenkins credential ID
+        DOCKER_HUB_CREDENTIAL = 'Trinhhongthuc1999.' // Jenkins credential ID
         DOCKER_REPO = 'testing-jenkins'
         TAG = 'latest'
         IMAGE_NAME = 'testing-jenkins'
