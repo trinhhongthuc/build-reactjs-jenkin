@@ -1,0 +1,13 @@
+version: "1.0"
+
+services:
+  app:
+    image: img-app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    command: yarn start
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
