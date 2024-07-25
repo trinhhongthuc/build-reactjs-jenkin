@@ -1,13 +1,10 @@
-version: "1.0"
+version: "3.8"
 
 services:
-  app:
-    image: img-app
-    working_dir: /usr/src/app
-    volumes:
-      - .:/usr/src/app
-    command: yarn start
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
+      - "80:80"
+    restart: always
