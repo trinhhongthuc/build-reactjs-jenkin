@@ -18,7 +18,12 @@ pipeline {
                 git url: "https://github.com/trinhhongthuc/build-reactjs-jenkin", branch: "master"
             }
         }
-
+        stage('Clear image') {
+            steps {
+                echo "Clearing"
+                sh "docker system prune -af "
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 echo "Building the Docker Image"
@@ -45,7 +50,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "Deploying the container"
-                sh "docker-compose down && docker system prune -a && docker-compose up -d"
+                sh "docker-compose down && docker-compose up -d"
             }
         }
     }
