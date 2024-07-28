@@ -20,7 +20,7 @@ RUN yarn build
 FROM nginx:latest
 
 # Copy the build output from the builder stage to Nginx's web root
-COPY --from=builder /usr/src/app/dist /var/www/jenkins/html
+COPY --from=builder /usr/src/app/dist /var/jenkins-testing
 
 # Expose port 80 to the outside world
 EXPOSE 80
