@@ -31,8 +31,11 @@ pipeline {
                 echo "Pushing the Docker image to Docker Hub"
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_HUB_CREDENTIAL}", passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
                     script {
+                        sh 'echo Starting the Docker push'
                         sh "docker tag ${IMAGE_NAME}:${TAG} ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${TAG}"
+                        sh "echo Starting docker login"
                         sh "echo $DOCKERHUB_PASSWORD | docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                        sh  "echo starting docker push"
                         sh "docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${TAG}"
                     }
                 }
