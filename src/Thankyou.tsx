@@ -1,7 +1,7 @@
 const Thankyou = () => {
   return (
     <div>
-      Thankyou
+      Thank you
       <ul>
         <li>Testing jenkins</li>
         <li>Docker</li>
